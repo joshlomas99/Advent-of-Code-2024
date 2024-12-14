@@ -150,3 +150,39 @@ def Day11_Part2(input_file: str='Inputs/Day11_Inputs.txt') -> int:
     num_stones = sum(stones.values())
 
     return num_stones
+
+from time import perf_counter
+
+def time_function(func):
+    """
+    Decorator function to measure runtime of given function.
+
+    Parameters
+    ----------
+    func : func
+        Function to time.
+
+    """
+    def wrapper(*args, **kwargs):
+        t1 = perf_counter()
+        out = func(*args, **kwargs)
+        t2 = perf_counter() - t1
+        print(f'{func.__name__} ran in {t2:.7f} seconds')
+        return out
+    return wrapper
+
+from tqdm import tqdm
+
+@time_function
+def n_blinks(n):
+
+    stones = get_input('Inputs/Day11_Inputs.txt')
+
+    for i in tqdm(range(n)):
+        stones = blink(stones)
+
+    num_stones = sum(stones.values())
+
+    print(len(stones))
+
+    return stones
